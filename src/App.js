@@ -1,4 +1,4 @@
-import logo from './logo.svg';
+import logo from './diamond-hands.png';
 import './App.css';
 import axios from 'axios';
 import { unparse } from 'papaparse';
@@ -6,76 +6,14 @@ import papa from "papaparse"
 import { millionsBillionsString } from './millions-billions.js'
 
 function App() {
-  let tickerSymbols = "ENRT,PREIF,ISIG,MARPS,RAVE,MXC,MTR,BDCO,KOSS,VASO,HHS,AXR,SRTS,HMENF,RCMT,HGBL,BRID,NRT,EPSN,ESEA,VOC,IPOOF,JAKK,JFIN,ALVOF,GENGF,EPM,JRNGF,AMPY,GPP,ASRT,TCI,DXLG,ARL,HDSN,GNE,UNTC,CAN,LEU,SJT,MCFT,IIIN,OBE,ZYME,SBOW,SD,CMPO,GPRK,KNSA,WTI,CCRN,ASTL,GSM,VTLE,REPX,UAN,BSIG,CLBT,MED,DMLP,SBR,EAF,SBGI,DVAX,GPOR,BKE,HCC,CEIX,VET,ARCH,AMR,BCC,ARLP,CALM,NOG,WIRE,JXN,ERF,BSM,DQ,BTU,MLI,SKY,LPX,MGY,ATKR,DDS,PBF,DOOO,CHRD,PDCE,WSM,OVV,CHK,SQM,APA,CF,STLD,BNTX,IMO,DVN,NUE,MRNA,VALE,EQNR"
-  // let tickerSymbols = "AMR,AN,ARCB" //for testing
+  // let tickerSymbols = "ENRT,PREIF,ISIG,MARPS,RAVE,MXC,MTR,BDCO,KOSS,VASO,HHS,AXR,SRTS,HMENF,RCMT,HGBL,BRID,NRT,EPSN,ESEA,VOC,IPOOF,JAKK,JFIN,ALVOF,GENGF,EPM,JRNGF,AMPY,GPP,ASRT,TCI,DXLG,ARL,HDSN,GNE,UNTC,CAN,LEU,SJT,MCFT,IIIN,OBE,ZYME,SBOW,SD,CMPO,GPRK,KNSA,WTI,CCRN,ASTL,GSM,VTLE,REPX,UAN,BSIG,CLBT,MED,DMLP,SBR,EAF,SBGI,DVAX,GPOR,BKE,HCC,CEIX,VET,ARCH,AMR,BCC,ARLP,CALM,NOG,WIRE,JXN,ERF,BSM,DQ,BTU,MLI,SKY,LPX,MGY,ATKR,DDS,PBF,DOOO,CHRD,PDCE,WSM,OVV,CHK,SQM,APA,CF,STLD,BNTX,IMO,DVN,NUE,MRNA,VALE,EQNR"
+  //let tickerSymbols = "AMR,AN,ARCB" //for testing
+  let tickerSymbols = "AMR,AN,ARCB" //for testing
   let tickerSymbolsArray = tickerSymbols.split(",")
   const financingCashFlowFinalArray = [["Ticker", "Financing Cash Flow"]]
   const netIncomeArray = [["Ticker", "Net Income"]]
   const operatingCashFlowArray = [["Ticker", "Operating Cash Flow"]]
 
-  // function getFinancingCashFlow() {
-  //   setTimeout(async function () {
-  //     const symbol = tickerSymbolsArray[0]
-  //     let axiosError = false
-  //     let confirmContinue = true
-  //     let numberAlone = "error"
-
-  //     const response = await axios.get(`https://finance.yahoo.com/quote/${symbol}/cash-flow/`)
-  //       .catch(error => {
-  //         error = true;
-  //         let text = "Axios error. Do you want to continue?";
-  //         let response = window.confirm(text)
-  //         if (!response) {
-  //           confirmContinue = false
-  //           console.log("BREAKING!")
-  //         }
-  //       })
-  //     // console.log(response.data)
-  //     if (!axiosError && confirmContinue) {
-
-  //       let finRowSplit = response.data.split("fin-row")
-  //       if (finRowSplit === undefined) {
-  //         console.log("finRowSplit undefined for " + symbol)
-  //       } else {
-  //         let fcfSection1 = finRowSplit[3]
-  //         if (fcfSection1 === undefined) {
-  //           console.log("fcfSection1 undefined for " + symbol)
-  //         } else {
-  //           let startsWithNumber = fcfSection1.split("--pnclg D(tbc)\" data-test=\"fin-col\"><span>")[1]
-  //           if (startsWithNumber === undefined) {
-  //             console.log("startsWithNumber  undefined for " + symbol)
-  //           } else {
-  //             numberAlone = startsWithNumber.split("</span>")[0]
-  //             if (numberAlone === undefined) {
-  //               console.log("numberAlone  undefined for " + symbol)
-  //             }
-  //           }
-  //         }
-  //       }
-  //     } else {
-  //       console.log("Axios error at symbol: " + symbol)
-  //     }
-
-  //     let newRow = [symbol, numberAlone]
-  //     financingCashFlowFinalArray.push(newRow)
-
-  //     // newString += `${symbol};${numberAlone}\n`
-  //     // const financingCashFlowFinalArray = newString.split(`\n`)
-  //     console.log("Here's the array:")
-  //     console.log(financingCashFlowFinalArray)
-
-  //     tickerSymbolsArray = tickerSymbolsArray.slice("1")
-  //     if (tickerSymbolsArray.length !== 0) {
-  //       getFinancingCashFlow
-  //         ()
-  //     } else {
-
-  //       const csv = unparse(financingCashFlowFinalArray)
-  //       downloadCSV(csv)
-  //       tickerSymbolsArray = tickerSymbols.split(",") //reset ticker symbols array
-  //     }
-  //   }, 3000)
-  // }
 
   function getFinancingCashFlow() {
     setTimeout(async function () {
@@ -284,10 +222,32 @@ function App() {
     downloadCSV(unparse(cleanedCSVArrays))
   }
 
+  function uploadUserInput(e) {
+    e.preventDefault()
+    const tickerInput = document.getElementById("user-ticker-input").value.replaceAll("\n", ",")
+    if (tickerInput) {
+      tickerSymbols = tickerInput;
+      tickerSymbolsArray = tickerInput.split(",")
+      document.getElementById("ticker-list").innerHTML = tickerSymbols
+    }
+  }
+
   return (
     <div className="App">
       <header className="App-header">
         <img src={logo} className="App-logo" alt="logo" />
+
+        <ol>
+          <li>Generate a table with a column of all the stock tickers you'd like to screen. (I download the table of chosen stocks from Fidelity)</li>
+          <li>Copy/paste the column of ticker symbols into the textarea below:</li>
+          <form onSubmit={uploadUserInput}>
+            <textarea id="user-ticker-input" />
+            <button type='submit'>Upload Ticker List</button>
+          </form>
+        </ol>
+        <h3>Current Ticker List:</h3>
+        <p id="ticker-list">{tickerSymbols}</p>
+        <h3>Screen options for the Ticker List:</h3>
         <button onClick={getFinancingCashFlow}>Click to scrape Financing Cash Flow</button>
         <button onClick={getNetIncome}>Click to scrape Net Income</button>
         <button onClick={getOperatingCashFlow}>Click to scrape Operating Cash Flow</button>
