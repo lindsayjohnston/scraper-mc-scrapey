@@ -45,13 +45,18 @@
   flex-direction: column;
 }
 
-.App form *{
+.App textarea{
   margin-bottom: 10px;
 }
 
 .App .action-buttons{
   display:flex;
   flex-direction: column;
+}
+
+.App #wait-message{
+  color: rgb(204, 94, 94);
+  display:none;
 }
 
 .App #ticker-list{

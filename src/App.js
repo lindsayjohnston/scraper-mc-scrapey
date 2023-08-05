@@ -3,7 +3,6 @@ import './App.css';
 import axios from 'axios';
 import { unparse } from 'papaparse';
 import papa from "papaparse"
-import { millionsBillionsString } from './millions-billions.js'
 
 function App() {
   // let tickerSymbols = "ENRT,PREIF,ISIG,MARPS,RAVE,MXC,MTR,BDCO,KOSS,VASO,HHS,AXR,SRTS,HMENF,RCMT,HGBL,BRID,NRT,EPSN,ESEA,VOC,IPOOF,JAKK,JFIN,ALVOF,GENGF,EPM,JRNGF,AMPY,GPP,ASRT,TCI,DXLG,ARL,HDSN,GNE,UNTC,CAN,LEU,SJT,MCFT,IIIN,OBE,ZYME,SBOW,SD,CMPO,GPRK,KNSA,WTI,CCRN,ASTL,GSM,VTLE,REPX,UAN,BSIG,CLBT,MED,DMLP,SBR,EAF,SBGI,DVAX,GPOR,BKE,HCC,CEIX,VET,ARCH,AMR,BCC,ARLP,CALM,NOG,WIRE,JXN,ERF,BSM,DQ,BTU,MLI,SKY,LPX,MGY,ATKR,DDS,PBF,DOOO,CHRD,PDCE,WSM,OVV,CHK,SQM,APA,CF,STLD,BNTX,IMO,DVN,NUE,MRNA,VALE,EQNR"
@@ -16,6 +15,7 @@ function App() {
 
 
   function getFinancingCashFlow() {
+    disableScraperButtons()
     setTimeout(async function () {
       const symbol = tickerSymbolsArray[0]
       let axiosError = false
@@ -61,12 +61,14 @@ function App() {
       } else {
         const csv = unparse(financingCashFlowFinalArray)
         downloadCSV(csv)
+        enableScraperButtons()
         tickerSymbolsArray = tickerSymbols.split(",") //reset ticker symbols array
       }
     }, 3000)
   }
 
   function getNetIncome() {
+    disableScraperButtons()
     setTimeout(async function () {
       const symbol = tickerSymbolsArray[0]
       let axiosError = false
@@ -112,12 +114,14 @@ function App() {
       } else {
         const csv = unparse(netIncomeArray)
         downloadCSV(csv)
+        enableScraperButtons()
         tickerSymbolsArray = tickerSymbols.split(",") //reset ticker symbols array
       }
     }, 3000)
   }
 
   function getOperatingCashFlow() {
+    disableScraperButtons()
     setTimeout(async function () {
       const symbol = tickerSymbolsArray[0]
       let axiosError = false
@@ -163,6 +167,7 @@ function App() {
       } else {
         const csv = unparse(operatingCashFlowArray)
         downloadCSV(csv)
+        enableScraperButtons()
         tickerSymbolsArray = tickerSymbols.split(",") //reset ticker symbols array
       }
     }, 3000)
@@ -191,7 +196,10 @@ function App() {
   }
 
   const millionsBillionsHandler = () => {
-    let parsedCSV = papa.parse(millionsBillionsString).data
+    let marketCapInput = document.getElementById("market-cap-values").value
+   
+    // let parsedCSV = papa.parse(millionsBillionsString).data
+    let parsedCSV = papa.parse(marketCapInput).data
     const cleanedCSVArrays = []
     parsedCSV.forEach(array => {
       let stringNumber = array[0]
@@ -232,6 +240,24 @@ function App() {
     }
   }
 
+  const disableScraperButtons=()=>{
+    const waitMessage= document.getElementById("wait-message")
+    waitMessage.style.display = "block"
+    const scraperButtons = document.getElementsByClassName("scraper-button")
+    for(const button of scraperButtons){
+      button.disabled = true
+    }
+  }
+
+  const enableScraperButtons=()=>{
+    const waitMessage= document.getElementById("wait-message")
+    waitMessage.style.display = "none"
+    const scraperButtons = document.getElementsByClassName("scraper-button")
+    for(const button of scraperButtons){
+      button.disabled = false
+    }
+  }
+
   return (
     <div className="App">
       <header className="App-header">
@@ -240,7 +266,7 @@ function App() {
       </header>
       <main>
       <ol>
-          <li>Generate a table with a column of all the stock tickers you'd like to screen. (I download the table of chosen stocks from Fidelity)</li>
+          <li>Generate a table with a column (or a CSV) of all the stock tickers you'd like to screen. (I download the table of chosen stocks from Fidelity.com)</li>
           <li>Copy/paste the column of ticker symbols into the textarea below, then click the button to upload the list:</li>
         </ol>
         <form onSubmit={uploadUserInput}>
@@ -251,12 +277,18 @@ function App() {
         <p id="ticker-list">{tickerSymbols}</p>
         <h3>Screen options for the Ticker List:</h3>
         <div className='action-buttons'>
-        <button onClick={getFinancingCashFlow}>Click to scrape Financing Cash Flow</button>
-        <button onClick={getNetIncome}>Click to scrape Net Income</button>
-        <button onClick={getOperatingCashFlow}>Click to scrape Operating Cash Flow</button>
-        <button onClick={millionsBillionsHandler}>Change millions billions to numbers</button>
+        <button className='scraper-button' onClick={getFinancingCashFlow}>Click to scrape Financing Cash Flow</button>
+        <button className='scraper-button' onClick={getNetIncome}>Click to scrape Net Income</button>
+        <button className='scraper-button' onClick={getOperatingCashFlow}>Click to scrape Operating Cash Flow</button>
+        <p id='wait-message'>Please wait while we scrape! Your results will download when finished.</p>
+        <h3>Other Tools:</h3>
+ 
+    <ol>
+          <li>Copy the column of Market Capitalization values for the tickers above from Fidelity.com into the textarea below. Click the button to convert from millions to billions to numbers.</li>
+        </ol>
+        <textarea id="market-cap-values"/>
+        <button onClick={millionsBillionsHandler}>Change Market Cap Millions & Billions to Numbers</button>
         </div>
-   
       </main>
     </div>
   );
