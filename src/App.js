@@ -235,25 +235,29 @@ function App() {
   return (
     <div className="App">
       <header className="App-header">
+      <h1>Stock Ticker Data Scraper</h1>
         <img src={logo} className="App-logo" alt="logo" />
-
-        <ol>
+      </header>
+      <main>
+      <ol>
           <li>Generate a table with a column of all the stock tickers you'd like to screen. (I download the table of chosen stocks from Fidelity)</li>
-          <li>Copy/paste the column of ticker symbols into the textarea below:</li>
-          <form onSubmit={uploadUserInput}>
+          <li>Copy/paste the column of ticker symbols into the textarea below, then click the button to upload the list:</li>
+        </ol>
+        <form onSubmit={uploadUserInput}>
             <textarea id="user-ticker-input" />
             <button type='submit'>Upload Ticker List</button>
           </form>
-        </ol>
         <h3>Current Ticker List:</h3>
         <p id="ticker-list">{tickerSymbols}</p>
         <h3>Screen options for the Ticker List:</h3>
+        <div className='action-buttons'>
         <button onClick={getFinancingCashFlow}>Click to scrape Financing Cash Flow</button>
         <button onClick={getNetIncome}>Click to scrape Net Income</button>
         <button onClick={getOperatingCashFlow}>Click to scrape Operating Cash Flow</button>
         <button onClick={millionsBillionsHandler}>Change millions billions to numbers</button>
-
-      </header>
+        </div>
+   
+      </main>
     </div>
   );
 }

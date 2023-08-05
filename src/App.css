@@ -1,10 +1,17 @@
 .App {
   text-align: center;
+  max-width: 800px;
+  width:100%;
+}
+
+.App main{
+  margin: 10px;
 }
 
 .App-logo {
   height: 40vmin;
   pointer-events: none;
+  margin-bottom: 20px;
 }
 
 @media (prefers-reduced-motion: no-preference) {
@@ -14,20 +21,42 @@
 }
 
 .App-header {
-  background-color: #282c34;
-  min-height: 100vh;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
+
 }
 
 .App-link {
   color: #61dafb;
 }
 
+.App ol{
+  text-align: left;
+}
+
+.App li{
+  margin-bottom: 10px;
+}
+
+.App form{
+  display: flex;
+  flex-direction: column;
+}
+
+.App form *{
+  margin-bottom: 10px;
+}
+
+.App .action-buttons{
+  display:flex;
+  flex-direction: column;
+}
+
+.App #ticker-list{
+  word-wrap: break-word;
+}
 @keyframes App-logo-spin {
   from {
     transform: rotate(0deg);
