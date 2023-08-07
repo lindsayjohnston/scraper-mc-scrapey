@@ -284,7 +284,7 @@ function App() {
         <h3>Other Tools:</h3>
  
     <ol>
-          <li>Copy the column of Market Capitalization values for the tickers above from Fidelity.com into the textarea below. Click the button to convert from millions to billions to numbers.</li>
+          <li>Copy the column of Market Capitalization values for the tickers above from Fidelity.com into the textarea below. Click the button to convert from millions and billions to numbers.</li>
         </ol>
         <textarea id="market-cap-values"/>
         <button onClick={millionsBillionsHandler}>Change Market Cap Millions & Billions to Numbers</button>
