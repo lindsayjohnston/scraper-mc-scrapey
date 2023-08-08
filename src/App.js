@@ -3,18 +3,39 @@ import './App.css';
 import axios from 'axios';
 import { unparse } from 'papaparse';
 import papa from "papaparse"
+import { useEffect, useState } from 'react';
 
 function App() {
-  // let tickerSymbols = "ENRT,PREIF,ISIG,MARPS,RAVE,MXC,MTR,BDCO,KOSS,VASO,HHS,AXR,SRTS,HMENF,RCMT,HGBL,BRID,NRT,EPSN,ESEA,VOC,IPOOF,JAKK,JFIN,ALVOF,GENGF,EPM,JRNGF,AMPY,GPP,ASRT,TCI,DXLG,ARL,HDSN,GNE,UNTC,CAN,LEU,SJT,MCFT,IIIN,OBE,ZYME,SBOW,SD,CMPO,GPRK,KNSA,WTI,CCRN,ASTL,GSM,VTLE,REPX,UAN,BSIG,CLBT,MED,DMLP,SBR,EAF,SBGI,DVAX,GPOR,BKE,HCC,CEIX,VET,ARCH,AMR,BCC,ARLP,CALM,NOG,WIRE,JXN,ERF,BSM,DQ,BTU,MLI,SKY,LPX,MGY,ATKR,DDS,PBF,DOOO,CHRD,PDCE,WSM,OVV,CHK,SQM,APA,CF,STLD,BNTX,IMO,DVN,NUE,MRNA,VALE,EQNR"
-  //let tickerSymbols = "AMR,AN,ARCB" //for testing
-  let tickerSymbols = "AMR,AN,ARCB" //for testing
+  // let tickerSymbols = "ENRT,PREIF,ISIG,MARPS,RAVE,MXC,MTR,BDCO,KOSS,VASO,HHS,AXR,SRTS,HMENF,RCMT,HGBL,BRID,NRT,EPSN,ESEA,VOC,IPOOF,JAKK,JFIN,ALVOF,GENGF,EPM,JRNGF,AMPY,GPP,ASRT,TCI,DXLG,ARL,HDSN,GNE,UNTC,CAN,LEU,SJT,MCFT,IIIN,OBE,ZYME,SBOW,SD,CMPO,GPRK,KNSA,WTI,CCRN,ASTL,GSM,VTLE,REPX,UAN,BSIG,CLBT,MED,DMLP,SBR,EAF,SBGI,DVAX,GPOR,BKE,HCC,CEIX,VET,ARCH,AMR,BCC,ARLP,CALM,NOG,WIRE,JXN,ERF,BSM,DQ,BTU,MLI,SKY,LPX,MGY,ATKR,DDS,PBF,DOOO,CHRD,PDCE,WSM,OVV,CHK,SQM,APA,CF,STLD,BNTX,IMO,DVN,NUE,MRNA,VALE,EQNR" //for testing
+  const [secondsLeft, setSecondsLeft] = useState(null)
+  const [minutes, setMinutes] = useState(null)
+  const [secondsLeftOver, setSecondsLeftOver] = useState(null)
+
+  const testTickerSymbols = "AMR,AN,ARCB"
+  const [tickerSymbols, setTickerSymbols] = useState(testTickerSymbols) //for testing
   let tickerSymbolsArray = tickerSymbols.split(",")
   const financingCashFlowFinalArray = [["Ticker", "Financing Cash Flow"]]
   const netIncomeArray = [["Ticker", "Net Income"]]
   const operatingCashFlowArray = [["Ticker", "Operating Cash Flow"]]
 
+  const countdown = (secondsLeft)=>{
+    let totalSeconds = secondsLeft ? secondsLeft : 5 * tickerSymbolsArray.length
+    setTimeout(async function (){
+      totalSeconds --;
+      setSecondsLeft(totalSeconds)
+      totalSeconds ? countdown(totalSeconds) : setSecondsLeft(null)
+    }, 1000)
+  }
 
-  function getFinancingCashFlow() {
+  useEffect(()=>{
+    let minutes = Math.floor(secondsLeft / 60)
+    let seconds = secondsLeft - (minutes * 60)
+    setMinutes(minutes)
+    setSecondsLeftOver(seconds)
+  }, [secondsLeft])
+
+  function getFinancingCashFlow(init) {
+    init && countdown()
     disableScraperButtons()
     setTimeout(async function () {
       const symbol = tickerSymbolsArray[0]
@@ -52,7 +73,7 @@ function App() {
       // debugger
       let newRow = [symbol, numberAlone]
       financingCashFlowFinalArray.push(newRow)
-      console.log("Here's the array:")
+      console.log("Updated array of tickers and values: ")
       console.log(financingCashFlowFinalArray)
 
       tickerSymbolsArray = tickerSymbolsArray.slice("1")
@@ -67,7 +88,8 @@ function App() {
     }, 3000)
   }
 
-  function getNetIncome() {
+  function getNetIncome(init) {
+    init && countdown()
     disableScraperButtons()
     setTimeout(async function () {
       const symbol = tickerSymbolsArray[0]
@@ -105,7 +127,7 @@ function App() {
       // debugger
       let newRow = [symbol, numberAlone]
       netIncomeArray.push(newRow)
-      console.log("Here's the array:")
+      console.log("Updated array of tickers and values: ")
       console.log(netIncomeArray)
 
       tickerSymbolsArray = tickerSymbolsArray.slice("1")
@@ -120,7 +142,8 @@ function App() {
     }, 3000)
   }
 
-  function getOperatingCashFlow() {
+  function getOperatingCashFlow(init) {
+    init && countdown()
     disableScraperButtons()
     setTimeout(async function () {
       const symbol = tickerSymbolsArray[0]
@@ -158,7 +181,7 @@ function App() {
       // debugger
       let newRow = [symbol, numberAlone]
       operatingCashFlowArray.push(newRow)
-      console.log("Here's the array:")
+      console.log("Updated array of tickers and values: ")
       console.log(operatingCashFlowArray)
 
       tickerSymbolsArray = tickerSymbolsArray.slice("1")
@@ -234,8 +257,7 @@ function App() {
     e.preventDefault()
     const tickerInput = document.getElementById("user-ticker-input").value.replaceAll("\n", ",")
     if (tickerInput) {
-      tickerSymbols = tickerInput;
-      tickerSymbolsArray = tickerInput.split(",")
+      setTickerSymbols(tickerInput);
       document.getElementById("ticker-list").innerHTML = tickerSymbols
     }
   }
@@ -262,6 +284,7 @@ function App() {
     <div className="App">
       <header className="App-header">
       <h1>Stock Ticker Data Scraper</h1>
+      <p>This is NOT financial advice.</p>
         <img src={logo} className="App-logo" alt="logo" />
       </header>
       <main>
@@ -277,10 +300,14 @@ function App() {
         <p id="ticker-list">{tickerSymbols}</p>
         <h3>Screen options for the Ticker List:</h3>
         <div className='action-buttons'>
-        <button className='scraper-button' onClick={getFinancingCashFlow}>Click to scrape Financing Cash Flow</button>
-        <button className='scraper-button' onClick={getNetIncome}>Click to scrape Net Income</button>
-        <button className='scraper-button' onClick={getOperatingCashFlow}>Click to scrape Operating Cash Flow</button>
-        <p id='wait-message'>Please wait while we scrape! Your results will download when finished.</p>
+        <button className='scraper-button' onClick={()=>getFinancingCashFlow(true)}>Click to scrape Financing Cash Flow</button>
+        <button className='scraper-button' onClick={()=>getNetIncome(true)}>Click to scrape Net Income</button>
+        <button className='scraper-button' onClick={()=>getOperatingCashFlow(true)}>Click to scrape Operating Cash Flow</button>
+        <p id='wait-message'>Please wait while we scrape! Make sure to keep this window open. Your results will download when finished.
+        <br></br>
+        Estimated Time Left: {minutes}:{secondsLeftOver < 10 && 0}{secondsLeftOver}
+        </p>
+       
         <h3>Other Tools:</h3>
  
     <ol>
