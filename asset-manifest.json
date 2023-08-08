@@ -1,0 +1,17 @@
+{
+  "files": {
+    "main.css": "/static/css/main.7decf2eb.css",
+    "main.js": "/static/js/main.0acaeb89.js",
+    "static/js/787.72fd93f0.chunk.js": "/static/js/787.72fd93f0.chunk.js",
+    "static/media/fidelity-screenshot.png": "/static/media/fidelity-screenshot.3151226921864ac21d7a.png",
+    "static/media/diamond-hands.png": "/static/media/diamond-hands.efca7f1103a76643a878.png",
+    "index.html": "/index.html",
+    "main.7decf2eb.css.map": "/static/css/main.7decf2eb.css.map",
+    "main.0acaeb89.js.map": "/static/js/main.0acaeb89.js.map",
+    "787.72fd93f0.chunk.js.map": "/static/js/787.72fd93f0.chunk.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.7decf2eb.css",
+    "static/js/main.0acaeb89.js"
+  ]
+}
