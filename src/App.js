@@ -1,4 +1,5 @@
-import logo from './diamond-hands.png';
+import logo from "./media/diamond-hands.png";
+import fidelityScreenshot from './media/fidelity-screenshot.png';
 import './App.css';
 import axios from 'axios';
 import { unparse } from 'papaparse';
@@ -290,14 +291,18 @@ function App() {
       <main>
       <ol>
           <li>Generate a table with a column (or a CSV) of all the stock tickers you'd like to screen. (I download the table of chosen stocks from Fidelity.com)</li>
+          <img className= "example-image" src = {fidelityScreenshot}/>
           <li>Copy/paste the column of ticker symbols into the textarea below, then click the button to upload the list:</li>
-        </ol>
-        <form onSubmit={uploadUserInput}>
+          <form onSubmit={uploadUserInput}>
             <textarea id="user-ticker-input" />
             <button type='submit'>Upload Ticker List</button>
           </form>
+        </ol>
+
+<div className="current-tickers">
         <h3>Current Ticker List:</h3>
         <p id="ticker-list">{tickerSymbols}</p>
+        </div>
         <h3>Screen options for the Ticker List:</h3>
         <div className='action-buttons'>
         <button className='scraper-button' onClick={()=>getFinancingCashFlow(true)}>Click to scrape Financing Cash Flow</button>
@@ -307,13 +312,15 @@ function App() {
         <br></br>
         Estimated Time Left: {minutes}:{secondsLeftOver < 10 && 0}{secondsLeftOver}
         </p>
-       
+        </div>
+               
         <h3>Other Tools:</h3>
  
     <ol>
           <li>Copy the column of Market Capitalization values for the tickers above from Fidelity.com into the textarea below. Click the button to convert from millions and billions to numbers.</li>
-        </ol>
         <textarea id="market-cap-values"/>
+        </ol>
+        <div className="action-buttons">
         <button onClick={millionsBillionsHandler}>Change Market Cap Millions & Billions to Numbers</button>
         </div>
       </main>

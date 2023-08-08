@@ -36,12 +36,21 @@
   color: #61dafb;
 }
 
+.App textarea{
+  min-height: 100px;
+}
+
 .App ol{
   text-align: left;
 }
 
 .App li{
-  margin-bottom: 10px;
+  margin-bottom: 30px;
+}
+
+.App .example-image{
+  width: 100%;
+  border-radius: 1rem;
 }
 
 .App form{
@@ -51,6 +60,15 @@
 
 .App textarea{
   margin-bottom: 10px;
+  border-radius: 1rem;
+    padding: 1rem;
+    width: calc(100% - 2rem);
+}
+
+.App .current-tickers{
+  padding: 20px;
+  background-color: grey;
+  border-radius: 1rem;
 }
 
 .App .action-buttons{
