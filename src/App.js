@@ -303,7 +303,7 @@ function App() {
         <h3>Current Ticker List:</h3>
         <p id="ticker-list">{tickerSymbols}</p>
         </div>
-        <h3>Screen options for the Ticker List:</h3>
+        <h3>Scrape Data for the Ticker List:</h3>
         <div className='action-buttons'>
         <button className='scraper-button' onClick={()=>getFinancingCashFlow(true)}>Click to scrape Financing Cash Flow</button>
         <button className='scraper-button' onClick={()=>getNetIncome(true)}>Click to scrape Net Income</button>
