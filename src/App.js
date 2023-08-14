@@ -285,7 +285,7 @@ function App() {
     <div className="App">
       <header className="App-header">
       <h1>Stock Ticker Data Scraper</h1>
-      <p>This is NOT financial advice.</p>
+      <p>This is NOT financial advice. Will not work on Safari.</p>
         <img src={logo} className="App-logo" alt="logo" />
       </header>
       <main>
